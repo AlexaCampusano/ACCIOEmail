@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Accio.Data\Accio.Data.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="MailKit" Version="2.3.1.6" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="2.2.0"/>
+  </ItemGroup>
+</Project>
