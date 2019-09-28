@@ -16,10 +16,7 @@ namespace Accio.BLL.Services
         }
         public async Task StartAsync(CancellationToken cancellationToken)
         {
-            while (!cancellationToken.IsCancellationRequested)
-            {
-                await DoWork();
-            }
+            await DoWork();
         }
 
         public Task StopAsync(CancellationToken cancellationToken)

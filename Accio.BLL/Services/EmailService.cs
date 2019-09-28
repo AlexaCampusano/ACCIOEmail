@@ -16,7 +16,6 @@ namespace Accio.BLL.Services
         public EmailService(EmailSettings settings)
         {
             _settings = settings;
-
         }
 
         public async Task SendEmailAsync(string toAddress, EmailBody body = null, string ccAddress = null)
@@ -45,28 +44,29 @@ namespace Accio.BLL.Services
 
             var toAddressList = new[] { toAddress };
 
-            toAddressList.Select(to =>
+            foreach (var to in toAddressList)
             {
                 emailMessage.To.Add(new MailboxAddress(to));
-                return to;
-            });
+            }
 
             if (!string.IsNullOrEmpty(ccAddress))
             {
                 var ccAddressList = new[] { ccAddress };
-                ccAddressList.Select(cc =>
+                foreach (var cc in ccAddressList)
                 {
                     emailMessage.Cc.Add(new MailboxAddress(cc));
-                    return cc;
-                });
+                }
             }
 
-            try {
-                using(var smtp = new MailKit.Net.Smtp.SmtpClient()){
-                    var socketOption =  _settings.EnableSsl? SecureSocketOptions.StartTls : SecureSocketOptions.Auto;
+            try
+            {
+                using (var smtp = new MailKit.Net.Smtp.SmtpClient())
+                {
+                    var socketOption = _settings.EnableSsl ? SecureSocketOptions.StartTls : SecureSocketOptions.Auto;
                     await smtp.ConnectAsync(_settings.SmtpServer, _settings.SmtpServerPort, socketOption);
-                    
-                    if(!string.IsNullOrEmpty(_settings.SmtpUserName)) {
+
+                    if (!string.IsNullOrEmpty(_settings.SmtpUserName))
+                    {
                         await smtp.AuthenticateAsync(_settings.SmtpUserName, _settings.SmtpPassword);
                     }
 
@@ -74,7 +74,9 @@ namespace Accio.BLL.Services
                     await smtp.DisconnectAsync(true);
                 }
 
-            } catch (SmtpException ex) {
+            }
+            catch (SmtpException ex)
+            {
                 throw ex;
             }
         }

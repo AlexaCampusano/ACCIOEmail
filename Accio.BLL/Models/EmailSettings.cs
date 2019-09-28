@@ -16,5 +16,9 @@ namespace Accio.BLL.Models
             SmtpPassword = smtpPassword;
             SmtpServerPort = smtpServerPort;
         }
+
+        public EmailSettings() {
+
+        }
     }
 }
